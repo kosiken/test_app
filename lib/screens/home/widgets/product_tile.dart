@@ -11,7 +11,8 @@ import 'package:unicons/unicons.dart';
 class ProductTile extends StatelessWidget {
   final Product product;
   final void Function()? onPress;
-  const ProductTile({super.key, required this.product, this.onPress});
+  final bool? padding;
+  const ProductTile({super.key, required this.product, this.onPress, this.padding = false});
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,7 @@ class ProductTile extends StatelessWidget {
               
         Container(
               height: 150,
+              padding: EdgeInsets.symmetric(horizontal: 10),
               decoration:  BoxDecoration(
           image: DecorationImage(
               image: NetworkImage(product.url), fit: BoxFit.fitWidth),
@@ -35,7 +37,7 @@ class ProductTile extends StatelessWidget {
             const SizedBox(
               height: 20,
             ),
-           Padding(padding: const EdgeInsets.symmetric(horizontal: 5), child: Column(
+           Padding(padding: const EdgeInsets.symmetric(horizontal: 10), child: Column(
             
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

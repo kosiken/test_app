@@ -14,7 +14,7 @@ import 'package:test_app/widgets/stepper.dart';
 import 'package:test_app/widgets/typography.dart';
 import 'package:test_app/constants/colors.dart';
 import 'package:unicons/unicons.dart';
-
+import 'package:dynamic_height_grid_view/dynamic_height_grid_view.dart';
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -49,7 +49,7 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget buildProductTile(Product product) {
-    return ProductTile(product: product, onPress: openDetails,);
+    return ProductTile(product: product, onPress: openDetails, padding: true);
   }
 
 void openDetails() {
@@ -66,39 +66,9 @@ void close() {
   Debug.log("Close message");
   formKey.currentState!.reverseAnimation();
 }
-  @override
-  Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
-    Size size = MediaQuery.of(context).size;
-       final double itemHeight = (size.height - 260) / 2;
-    final double itemWidth = size.width / 2;
-    return Scaffold(
-        body: Stack(
-      children: <Widget>[
-        Column(children: [
-          Expanded(child:   Container(
-          color: Color.fromARGB(255, 237, 237, 237),
-          child: CustomScrollView(
-            slivers: [
-              const SliverAppBar(
-                pinned: true,
-                backgroundColor: Colors.white,
-                toolbarHeight: SEARCH_BAR_HEIGHT,
-                expandedHeight: 290.0,
-                elevation: 0,
-                flexibleSpace: FlexibleSpaceBar(
-                  background: Toplist(),
-                ),
-              ),
-              // SliverList(delegate: delegate),
-              SliverFillRemaining(
-                child: Column(
-                  children: [
+
+List<Widget> _buildList() {
+  return [
                     Container(
                       color: Colors.white,
                       padding: const EdgeInsets.symmetric(
@@ -138,28 +108,64 @@ void close() {
                         ],
                       ),
                     ),
-                    Expanded(
-                      child:  GridView.count(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 15,
-                          mainAxisSpacing: 10,
-                          childAspectRatio:  (itemWidth / itemHeight),
-                          
-                          
-                       
-                          clipBehavior: Clip.none,
-                          padding: const EdgeInsets.symmetric(
-                              vertical: 10, horizontal: 15),
-                          physics: const NeverScrollableScrollPhysics(),
-                          children: Products.map(buildProductTile).toList(growable: false)),
-                    )
-                  ],
+    
+                  ];
+                
+            
+}
+  @override
+  Widget build(BuildContext context) {
+    // This method is rerun every time setState is called, for instance as done
+    // by the _incrementCounter method above.
+    //
+    // The Flutter framework has been optimized to make rerunning build methods
+    // fast, so that you can just rebuild anything that needs updating rather
+    // than having to individually change instances of widgets.
+    Size size = MediaQuery.of(context).size;
+       final double itemHeight = (size.height - 260) / 2;
+    final double itemWidth = size.width / 2;
+    return Scaffold(
+        body: Stack(
+      children: <Widget>[
+        Column(children: [
+          Expanded(child:   Container(
+          color: Color.fromARGB(255, 237, 237, 237),
+          child: CustomScrollView(
+            slivers: [
+              const SliverAppBar(
+                pinned: true,
+                backgroundColor: Colors.white,
+                toolbarHeight: SEARCH_BAR_HEIGHT,
+                expandedHeight: 290.0,
+                elevation: 0,
+                flexibleSpace: FlexibleSpaceBar(
+                  background: Toplist(),
                 ),
-              )
+              ),
+              // SliverList(delegate: delegate),
+              SliverList(
+                 delegate: new SliverChildListDelegate(_buildList()),  
+        
+                  ),
+                SliverDynamicHeightGridView(
+        itemCount: Products.length,
+        crossAxisCount: 2,
+        
+        crossAxisSpacing: 10,
+        mainAxisSpacing: 10,
+        builder: (ctx, index) {
+          /// return your widget here.
+          ///
+          return buildProductTile(Products.elementAt(index));
+        }
+      ),
+      SliverList(delegate:  SliverChildListDelegate([ SizedBox(height: 40,)]))
             ],
           ),
         ),
         ),
+        
+   
          BottomNavigationBar(
       type: BottomNavigationBarType.fixed,
        selectedItemColor: teal,
