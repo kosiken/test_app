@@ -22,6 +22,7 @@ class _OpacityFeedbackState extends State<OpacityFeedback> {
               onTapDown: (TapDownDetails details) {
                 opacity = 0.4;
                 Debug.log('tap op');
+              
                 setState(() {});
 
               },

@@ -31,6 +31,7 @@ class Button extends Clickable {
   final double iconSize;
   final Color? iconColor;
   final EdgeInsets padding;
+  final bool bordered;
 
   const Button(
       {key,
@@ -42,8 +43,9 @@ class Button extends Clickable {
       this.borderRadius = const BorderRadius.all(Radius.circular(5)),
       this.disabled = false,
       this.iconSize = 20,
-      this.padding = const EdgeInsets.all(16),
+      this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       this.iconColor,
+      this.bordered = false,
       this.icon})
       : super(key: key, onTheClick: onClick, loading: loading);
 
@@ -54,17 +56,19 @@ class Button extends Clickable {
     child: Container(
       padding: padding,
       alignment: Alignment.center,
+      
     
       decoration: BoxDecoration(
-          color: color,
+          color: bordered ? Colors.transparent : color,
         borderRadius: borderRadius,
+        border: bordered ? Border.all(color: color, width: 1, ) : null
       ),
       child: Row(
         children: [
-         if(icon != null) Padding(padding: const EdgeInsets.only(right: 5), child: Icon(icon, color: iconColor ?? textColor, size: iconSize,),),
+         if(icon != null) Padding(padding: const EdgeInsets.only(right: 5), child: Icon(icon, color: iconColor ?? (bordered ? color : textColor), size: iconSize,),),
           AppTypography(
                    child,
-                    color: textColor,
+                    color: bordered ? color :  textColor,
                     type: TextTypes.button,
                     
           )
@@ -111,12 +115,18 @@ class AppIconButton extends Clickable {
 
   @override
   Widget build(BuildContext context) {
-    return OpacityFeedback(child: Stack(
+    return OpacityFeedback(
+      onClick: onClick,
+      child: Stack(
       clipBehavior: Clip.none,
       children: [
        Container(
         padding: backgroundColor == null ? const EdgeInsets.all(2) : const EdgeInsets.all(10),
-        color: backgroundColor ?? Colors.transparent,
+       
+              decoration: BoxDecoration(
+           color: backgroundColor ?? Colors.transparent,
+            borderRadius: const BorderRadius.all(Radius.circular(10)),
+          ),
         child:  Icon(icon,  color: color, size: iconSize),
        ),
         if(text != null )  renderText()

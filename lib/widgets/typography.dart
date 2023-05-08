@@ -10,8 +10,10 @@ class AppTypography extends StatelessWidget {
   final TextTypes type;
   final double? height;
   final String body;
-
+  final double? customSize;
   final Color color;
+  final TextOverflow? overflow;
+  final int? maxLines;
 
 
   const AppTypography(this.body,
@@ -20,7 +22,11 @@ class AppTypography extends StatelessWidget {
       this.type = TextTypes.body,
       Key? key,
       this.color = Colors.black,
+      this.customSize,
+      this.overflow,
+      this.maxLines,
       this.height})
+
       : super(key: key);
 
   TextStyle _generateTextStyle() {
@@ -38,7 +44,7 @@ class AppTypography extends StatelessWidget {
         size = 14;
         break;
       case TextTypes.button:
-          size = 16;
+          size = 12;
       break;
       case TextTypes.header:
         size = 20;
@@ -51,17 +57,26 @@ class AppTypography extends StatelessWidget {
         Debug.log("Undefined size '$type' found \n ");
         size = 12;
         break;
+
+  
+    }
+    if(customSize != null) {
+      size = customSize!;
     }
 
     return TextStyle(
         fontSize: size,
         fontWeight: (bold || size > 16)
-            ? FontWeight.bold
+            ? FontWeight.w800
             : (type == TextTypes.button)
-                ? FontWeight.w700
+                 ? FontWeight.w700
                 : FontWeight.normal,
         decoration: TextDecoration.none,
         color: this.color,
+        letterSpacing: 0.1,
+        
+        overflow: overflow,
+      
         height: height);
   }
 
@@ -69,11 +84,20 @@ class AppTypography extends StatelessWidget {
     TextStyle textStyle = _generateTextStyle();
     return Text(
       body,
+      maxLines: maxLines,
       textDirection: TextDirection.ltr,
+      
       style: GoogleFonts.lato(
         textStyle: textStyle,
       ),
       textAlign: this.textAlign,
+    );
+  }
+
+  static TextStyle getDefaultStyle() {
+    return GoogleFonts.lato(
+      textStyle:  TextStyle(
+          letterSpacing: 0.1,)
     );
   }
 }

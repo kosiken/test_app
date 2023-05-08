@@ -20,7 +20,7 @@ class SearchInput extends StatelessWidget {
         width: 0,
       );}
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 10),
+      padding: const EdgeInsets.symmetric( horizontal: 10),
       child: Icon(
         icon,
         size: 20,
@@ -29,18 +29,18 @@ class SearchInput extends StatelessWidget {
     );
   }
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.symmetric(vertical:10),
             decoration: BoxDecoration(
           color: Colors.transparent,
           borderRadius: const BorderRadius.all(Radius.circular(12)),
           border: Border.all(
-                      color: Color.fromRGBO(107, 119, 154, 0.1),
+                      color: Colors.grey,
                       width: 1,
                       style: BorderStyle.solid,
                     )
         ),
       child: Row(
-
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: <Widget>[
           leftIcon(),
       Expanded(child:     TextField(
@@ -50,7 +50,8 @@ class SearchInput extends StatelessWidget {
           obscureText: secure,
           keyboardType: inputType,
           onChanged: onChanged,
-        decoration: InputDecoration.collapsed(hintText: placeholder,
+          
+        decoration: InputDecoration.collapsed(hintText: placeholder,hintStyle: TextStyle(color: Colors.grey)
          ),
       ))
         ],

@@ -2,10 +2,11 @@ import 'package:flutter/rendering.dart';
 
 const Color pink = Color.fromRGBO(0xE5, 0x5A, 0x86, 1);
 //4aaf96
-const Color teal = Color.fromRGBO(0x4A, 0xAF, 0x96, 1);
+const Color teal = Color.fromRGBO(1, 138, 110, 1);
 
 const Color darkBlue = Color.fromRGBO(0x2C, 0x2C, 0x41, 1);
 
+const Color greyColor = Color.fromRGBO(90, 89, 89, 1);
 
 const Map<String, Color> ThemeColors = {
   "primary": teal,
